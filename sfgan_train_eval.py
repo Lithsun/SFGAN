@@ -3,17 +3,17 @@ import time
 #import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io import loadmat
-from models.research.slim.datasets import dataset_utils
-from models.research.slim.nets import inception
+from tensorflow.models.research.slim.datasets import dataset_utils
+from tensorflow.contrib.slim.python.slim.nets import inception
 import tensorflow as tf
 import os
 slim = tf.contrib.slim
-from models.research.slim.preprocessing import inception_preprocessing
+from tensorflow.models.research.slim.preprocessing import inception_preprocessing
 
 from urllib.request import urlretrieve
 from os.path import isfile, isdir
 from tqdm import tqdm
-
+import h5py
 data_dir = 'data/'
 url = "http://download.tensorflow.org/models/inception_v3_2016_08_28.tar.gz"
 checkpoints_dir = "model_checkpoint/"
@@ -26,7 +26,7 @@ if not isdir(data_dir):
 if not tf.gfile.Exists(checkpoints_dir):
     tf.gfile.MakeDirs(checkpoints_dir)
 
-dataset_utils.download_and_uncompress_tarball(url, checkpoints_dir)
+#dataset_utils.download_and_uncompress_tarball(url, checkpoints_dir)
 
 
 class DLProgress(tqdm):
@@ -38,7 +38,7 @@ class DLProgress(tqdm):
         self.last_block = block_num
 
 # Load the training and testing datasets
-trainset = loadmat(data_dir + 'train_64x64.mat') # read the images as .mat format
+trainset =loadmat(data_dir + 'trainset.mat') # read the images as .mat format
 testset = loadmat(data_dir + 'test_64x64.mat')
 print("trainset shape:", trainset['X'].shape)
 print("testset shape:", testset['X'].shape)
